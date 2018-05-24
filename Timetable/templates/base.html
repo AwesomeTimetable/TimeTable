@@ -11,16 +11,25 @@
         <title>Hello, world!</title>
     </head>
     <body>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/core.js"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+        {% load staticfiles %}
+        <script src="{% static 'js/load_navbar.js' %}"></script>
         <!-- Just an image -->
+        {% block navbar %}
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="#">
-                {% load staticfiles %}
+
                 <img src="{% static 'images/临时头像.jpg' %}" width="30" height="30" alt="">
+                风空赶DDL防猝死交友系统
             </a>
 
-            <ul class="nav nav-tabs justify-content-end">
+            <!--<ul class="nav nav-tabs justify-content-end">-->
+            <ul id="navLinks" class="nav nav-tabs justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
+                    <a class="nav-link" href="{% url 'index' %}">首页</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">最后期限</a>
@@ -40,17 +49,27 @@
                             <a class="dropdown-item" href="#">登出</a>
                         </div>
                     {% else %}
-                        <a class="nav-link" href="#">登陆</a>
+                        <a class="nav-link" href="{% url 'login' %}">登陆</a>
                     {% endif %}
 
                 </li>
+
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="搜索" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                </form>
             </ul>
+
         </nav>
+        {% endblock %}
+
+        <!--text-->
+        {% block content %} {% endblock %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-  </body>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    </body>
 </html>

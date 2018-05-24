@@ -1,0 +1,28 @@
+{% extends 'users/users_base.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+     <div class="container">
+         <div class="login">
+
+             {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+             <form method="post" >
+                 {% csrf_token %}
+                 {% bootstrap_form form %}
+                 {% buttons %}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                 {% endbuttons %}
+
+             </form>
+         </div>
+     </div>
+
+{% endblock %}
