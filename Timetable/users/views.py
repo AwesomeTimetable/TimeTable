@@ -5,7 +5,7 @@ from .permissions import IsUserOrReadOnly
 from .serializers import CreateUserSerializer, UserSerializer
 
 
-class WUserViewSet(mixins.RetrieveModelMixin,
+class UserViewSet(mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
                   viewsets.GenericViewSet):
     """
@@ -24,3 +24,7 @@ class UserCreateViewSet(mixins.CreateModelMixin,
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
     permission_classes = (AllowAny,)
+
+
+def login(request):
+    pass

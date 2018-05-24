@@ -11,6 +11,13 @@ from rest_framework.authtoken.models import Token
 @python_2_unicode_compatible
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # 自己关注的对象, following 是子表
+    following = models.ManyToManyField('self')
+    # 头像
+    portrait = models.ImageField(upload_to='usericon', default='临时头像.jpg')
+
+    def follow(self, user: 'User'):
+        self.following.add(user)
 
     def __str__(self):
         return self.username
