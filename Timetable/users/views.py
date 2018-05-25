@@ -3,13 +3,15 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.contrib import messages
 
 from .models import User
 from .permissions import IsUserOrReadOnly
 from .serializers import CreateUserSerializer, UserSerializer
-from .forms import CustomUserCreationForm, UserChangeForm, UserCreationForm, UserLogin, UserRegister
+from .forms import CustomUserCreationForm, UserUpdateForm, UserLogin, UserRegister
 
 
 class UserViewSet(mixins.RetrieveModelMixin,
@@ -35,7 +37,6 @@ class UserCreateViewSet(mixins.CreateModelMixin,
 
 def user_login(request):
     if request.method == "POST":
-        print('POST 的表单站立在大地上')
         login_form = UserLogin(request.POST)
         if login_form.is_valid():
             cd = login_form.cleaned_data
@@ -70,6 +71,35 @@ def user_register(request):
     return render(request, 'users/register.html', {'form': f})
 
 
-class SignUp(generic.CreateView):
-    pass
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect('index')
+
+
+class PersonalDataView(generic.DetailView):
+    """
+    个人信息对应的VIEW
+    TODO:期望是个人信息对应要加上默认
+    """
+    model = User
+    template_name = 'users/profile.html'
+    # 现在对应的user
+    context_object_name = 'current_user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user: User = context['current_user']
+        user_form = UserUpdateForm(initial={
+            'email': user.email,
+            'username': user.username,
+            'portrait': user.portrait,
+            'password': user.password
+        })
+
+        user_form.email = user.email
+        user_form.username = user.username
+        user_form.portrait = user.portrait
+        context['form'] = user_form
+        return context
 

@@ -1,0 +1,21 @@
+{% extends 'timetable/timetable_base.html' %}
+
+{% block timetable-contents %}
+    {# arguments:  #}
+    <div class="container">
+        <ul>
+            {% for deadline in deadline_sets %}
+                <li class="row">
+                    User: {{ deadline.user.username }}
+                    Icon: {{ deadline.user.portrait }}
+
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% block form-block %}
+        <h2>创建你的最后期限</h2>
+        {% include 'utils/form_render.html' with form=deadline_form %}
+    {% endblock %}
+{% endblock %}

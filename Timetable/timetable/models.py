@@ -20,6 +20,14 @@ class Tag(models.Model):
         return f"Tag({self.tag_name})"
 
 
+class LargeDeadline(models.Model):
+    """
+    Deadline 的小组
+    """
+    group_name = models.CharField(max_length=50, null=False)
+    description = models.TextField(null=True)
+
+
 class Deadline(models.Model):
     """
     表示deadline的类
@@ -29,13 +37,17 @@ class Deadline(models.Model):
     # 表示对应用户的字段
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # tag 表示对应的Deadline类型, 希望能被INDEX索引
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     # 被创建的时间, 默认调用now
     created_time = models.DateTimeField(default=datetime.datetime.now, editable=False)
     # Deadline 结束的时间，不可以被设置为FALSE
     ending_time = models.DateTimeField(null=False)
     # 邮件订阅，对应的发送邮件 等
-    email_subscribe = models.BooleanField(default=False)
+    email_subscribe = models.BooleanField(default=False, blank=True)
+    # deadline 的小组，包含多个连续deadline 项目, 删除小组是设置成NULL.
+    ddl_group = models.ForeignKey(LargeDeadline, null=True, db_index=True, on_delete=models.SET_NULL, blank=True)
+    # ddl description
+    description = models.TextField(null=True, blank=False)
 
 
 class Course(models.Model):
@@ -60,4 +72,6 @@ class CourseComment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # 对应的评分(5 分制度)
     grade = models.IntegerField(null=True, validators=[MaxValueValidator(GRADE_UPPER), MinValueValidator(GRADE_LOWER)])
+    # comment_text = models.TextField(max_length=150, null=True)
+
 

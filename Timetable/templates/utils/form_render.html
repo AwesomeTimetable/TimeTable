@@ -1,0 +1,10 @@
+{# 这个文件是为了用bootstrap4 渲染单个表单做出来的 #}
+{% load bootstrap4 %}
+<form method="post" >
+         {% csrf_token %}
+         {% bootstrap_form form %}
+         {% buttons %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+         {% endbuttons %}
+</form>
+

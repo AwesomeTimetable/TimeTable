@@ -12,16 +12,9 @@
                     <li>{{ message }}</li>
                     {% endfor %}
                 </ul>
-            {% endif %}
+             {% endif %}
 
-             <form method="post" >
-                 {% csrf_token %}
-                 {% bootstrap_form form %}
-                 {% buttons %}
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                 {% endbuttons %}
-
-             </form>
+             {% include 'utils/form_render.html' %}
          </div>
      </div>
 

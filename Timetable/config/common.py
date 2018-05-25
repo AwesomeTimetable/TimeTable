@@ -86,7 +86,8 @@ class Common(Configuration):
     )
 
     # Media files
-    MEDIA_ROOT = join(os.path.dirname(BASE_DIR), 'media')
+    # TODO: make clear what media store.
+    MEDIA_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), 'Timetable/media'))
     MEDIA_URL = '/media/'
 
     TEMPLATES = [

@@ -8,7 +8,11 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-        <title>Hello, world!</title>
+        <title>
+            {% block title %}
+                底层模版页面
+            {% endblock %}
+        </title>
     </head>
     <body>
         <script src="https://cdn.bootcss.com/jquery/3.3.1/core.js"></script>
@@ -32,27 +36,29 @@
                     <a class="nav-link" href="{% url 'index' %}">首页</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">最后期限</a>
+                    <a class="nav-link" href="{% url 'deadlines' %}">最后期限</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">课程表</a>
                 </li>
-                <li class="nav-item">
 
-                    {% if user.is_authenticated %}
-                        <a class="nav-link">{{ user.username }}</a>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">个人信息</a>
+                            <a class="dropdown-item" href="{% url 'profile' user.id %}">个人信息</a>
                             <a class="dropdown-item" href="#">时光机</a>
                             <a class="dropdown-item" href="#">关注</a>
+                            <a class="dropdown-item" href="#">我参加的小组</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">登出</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">登出</a>
                         </div>
-                    {% else %}
+                    </li>
+                {% else %}
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">登陆</a>
-                    {% endif %}
-
-                </li>
+                    </li>
+                {% endif %}
 
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="搜索" aria-label="Search">
@@ -62,6 +68,24 @@
 
         </nav>
         {% endblock %}
+
+        {% block flash %}
+        {# 提供的刷新的FLASH消息 #}
+            <ul>
+                {% for message in messages %}
+                    {% if message.tag == "INFO" %}
+                        <li>
+                            <div class="alert alert-danger" role="alert">
+
+                                {{ message }}
+
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endblock %}
+
 
         <!--text-->
         {% block content %} {% endblock %}

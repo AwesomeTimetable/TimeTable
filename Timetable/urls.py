@@ -7,6 +7,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from .users.views import UserViewSet, UserCreateViewSet
+from .timetable.views import index
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -21,7 +22,8 @@ urlpatterns = [
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
     # re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
-    re_path(r'^$', include('Timetable.timetable.urls')),
+    path('', index, name='index'),
+    re_path(r'^timetables/', include('Timetable.timetable.urls')),
     re_path(r'^users/', include('Timetable.users.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
