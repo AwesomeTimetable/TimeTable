@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:9.6-alpine
     volumes:
-        - ./pgdata:/var/lib/postgresql:rw
+        - pgdata:/var/lib/postgresql:rw
     user: postgres
     ports:
       - "5432:5432"
@@ -12,6 +12,7 @@ services:
     restart: always
     environment:
       - DJANGO_SECRET_KEY=local
+      - DJANGO_CONFIGURATION=Production
     image: web
     build: ./
     command: >
@@ -24,13 +25,13 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
-    links:
-      - postgres
-  documentation:
-    restart: always
-    build: ./
-    command: "mkdocs serve"
-    volumes:
-      - ./:/code
-    ports:
-      - "8001:8001"
+volumes:
+  pgdata:
+#  documentation:
+#    restart: always
+#    build: ./
+#    command: "mkdocs serve"
+#    volumes:
+#      - ./:/code
+#    ports:
+#      - "8001:8001"
